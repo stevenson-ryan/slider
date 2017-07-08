@@ -10,7 +10,7 @@ int shutter=3;                                             //Designate pin 6 as 
 int focus=2;                                               //Designate pin 7 as Focus Control
 int x=0;                                                   //Create integer "x," which equals steps away fro home position (above motor)
 int stepSize=7;                                            //Number of steps that will be taken in each movement phase
-int shutterSpeed=500;                                      //Define an initial shutter speed of 0.5sec
+int shutterSpeed=500;                                      //Define a shutter speed of 0.5sec
 
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();        //Create the motor shield object with the default I2C address
 Adafruit_StepperMotor *myMotor = AFMS.getStepper(200, 1);  //Initialize stepper with (x, _) steps per rev on port (_, y)  [m1 & m2 is port 1, m3 & m4 is port 2]
@@ -51,12 +51,11 @@ void loop() {
   digitalWrite(shutter, LOW);                              //Lower the shutter
   delay(1500);                                             //Wait 1.5 second
   
-
-                                                           //Motor not strong enough to run uphill on return as double, use micro.
   digitalWrite(moveled, HIGH);                             //Turn on "Moving" led (Diffuse RED)
   x=x+stepSize;                                            //Add "stepSize" value to previous "x" value to determine new "x" location
   myMotor->step(stepSize, BACKWARD, MICROSTEP);            //Move motor 
   digitalWrite(moveled, LOW);                              //Turn off "Moving" led (Diffuse RED)
+  
   //Settle
   delay (5000);                                            //Wait 5 seconds for vibrations to settle
   
