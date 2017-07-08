@@ -50,72 +50,30 @@ void loop() {
   digitalWrite(shutterPosled, LOW);                        //Turn off "Shutter Up" led (GREEN)
   digitalWrite(shutter, LOW);                              //Lower the shutter
   delay(1500);                                             //Wait 1.5 second
-
   
-  shutterSpeed=shutterSpeed+5;                             //Increase the shutter speed by 5ms for the next loop
 
+                                                           //Motor not strong enough to run uphill on return as double, use micro.
+  digitalWrite(moveled, HIGH);                             //Turn on "Moving" led (Diffuse RED)
+  x=x+stepSize;                                            //Add "stepSize" value to previous "x" value to determine new "x" location
+  myMotor->step(stepSize, BACKWARD, MICROSTEP);            //Move motor 
+  digitalWrite(moveled, LOW);                              //Turn off "Moving" led (Diffuse RED)
+  //Settle
+  delay (5000);                                            //Wait 5 seconds for vibrations to settle
   
-  //Movement option 1                                      //Use this option to have the sled return quickly to the origin and begin shooting again. 
-//                                                           //Motor not strong enough to run uphill on return as double, use micro.
-//  digitalWrite(moveled, HIGH);                             //Turn on "Moving" led (Diffuse RED)
-//  x=x+stepSize;                                            //Add "stepSize" value to previous "x" value to determine new "x" location
-//  myMotor->step(stepSize, BACKWARD, MICROSTEP);            //Move motor 
-//  digitalWrite(moveled, LOW);                              //Turn off "Moving" led (Diffuse RED)
-//  //Settle
-//  delay (5000);                                            //Wait 5 seconds for vibrations to settle
-  
-//  if (x>=3000){                                            //When the sled reaches the end of the track:
-//    myMotor->setSpeed(120);                                //Redefine RPM of motor to 120
-//    digitalWrite(shutterPosled, HIGH);                     //Turn on "Shutter Up" led (GREEN)
-//    digitalWrite(shutterNegled, HIGH);                     //Turn on "Shutter Down" led (RED)
-//    digitalWrite(moveled, HIGH);                           //Turn on "Moving" led (Diffuse RED)
-//    digitalWrite(focusled, HIGH);                          //Turn on "Focusing" led (BLUE)
-//    delay(3000);                                           //Wait 3 seconds
-//    myMotor->step(3000, FORWARD, MICROSTEP);               //Return to Origin (x=0)
-//    digitalWrite(shutterPosled, LOW);                      //Turn off "Shutter Up" led (GREEN)
-//    digitalWrite(shutterNegled, LOW);                      //Turn off "Shutter Down" led (RED)
-//    digitalWrite(moveled, LOW);                            //Turn off "Moving" led (Diffuse RED)
-//    digitalWrite(focusled, LOW);                           //Turn off "Focusing" led (BLUE)
-//    x=x-3000;                                              //Restart "x" at 0
-//    delay(5000);                                           //Wait 5 seconds
-//    }
-
-  //Movement option 2                                      //Use this option to have the motor release at the end of a uni-directional run
-//  if (x<3000) {                                              
-//    digitalWrite(moveled, HIGH);                           //Turn on "Moving" led (Diffuse RED)
-//    x=x+stepSize;                                          //Add "stepSize" value to previous "x" value to determine new "x" location
-//    myMotor->step(stepSize, BACKWARD, MICROSTEP);          //Move motor 
-//    digitalWrite(moveled, LOW);                            //Turn off "Moving" led (Diffuse RED)
-//    Settle
-//    delay (5000);                                          //Wait 5 seconds for vibrations to settle
-//  }
-
-  //Movement option 3
-//Use this section to begin shooting & moving in the opposite direction from before. Provisions need to be made for each lap made across the track 
-//**NOTE this releases the motor as each photo is taken, so don't use it when the slider is un-level**
-  if (x<3000) {                                              
+  if (x>=3000){                                            //When the sled reaches the end of the track:
+    myMotor->setSpeed(120);                                //Redefine RPM of motor to 120
+    digitalWrite(shutterPosled, HIGH);                     //Turn on "Shutter Up" led (GREEN)
+    digitalWrite(shutterNegled, HIGH);                     //Turn on "Shutter Down" led (RED)
     digitalWrite(moveled, HIGH);                           //Turn on "Moving" led (Diffuse RED)
-    x=x+stepSize;                                          //Add "stepSize" value to previous "x" value to determine new "x" location
-    myMotor->step(stepSize, BACKWARD, MICROSTEP);          //Move motor 
+    digitalWrite(focusled, HIGH);                          //Turn on "Focusing" led (BLUE)
+    delay(3000);                                           //Wait 3 seconds
+    myMotor->step(3000, FORWARD, MICROSTEP);               //Return to Origin (x=0)
+    digitalWrite(shutterPosled, LOW);                      //Turn off "Shutter Up" led (GREEN)
+    digitalWrite(shutterNegled, LOW);                      //Turn off "Shutter Down" led (RED)
     digitalWrite(moveled, LOW);                            //Turn off "Moving" led (Diffuse RED)
-//    Settle
-    delay (5000);                                          //Wait 5 seconds for vibrations to settle
-  }
-  else if (x>=3000 && x<6380) {
-    digitalWrite(moveled, HIGH);                               //Turn on "Moving" led (Diffuse RED)
-    x=x+stepSize;                                              //Add "stepSize" value to previous "x" value to determine new "x" location
-    myMotor->step(stepSize, FORWARD, MICROSTEP);              //Move motor 
-    digitalWrite(moveled, LOW);                                //Turn off "Moving" led (Diffuse RED)
-//    Settle
-    delay (1000); 
-  }
-  else if (x>=6380 && x<9570) {
-    digitalWrite(moveled, HIGH);                               //Turn on "Moving" led (Diffuse RED)
-    x=x+stepSize;                                              //Add "stepSize" value to previous "x" value to determine new "x" location
-    myMotor->step(stepSize, BACKWARD, MICROSTEP);              //Move motor 
-    digitalWrite(moveled, LOW);                                //Turn off "Moving" led (Diffuse RED)
-//    Settle
-    delay (1000); 
-  }
-  
+    digitalWrite(focusled, LOW);                           //Turn off "Focusing" led (BLUE)
+    x=x-3000;                                              //Restart "x" at 0
+    delay(5000);                                           //Wait 5 seconds
+    }
+
 }
