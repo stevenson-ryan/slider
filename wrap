@@ -1,0 +1,25 @@
+//Use this to begin shooting & moving in the opposite direction from before. Provisions need to be made for each lap made across the track 
+//**NOTE this releases the motor as each photo is taken, so don't use it when the slider is un-level**
+  if (x<3000) {                                              
+    digitalWrite(moveled, HIGH);                           //Turn on "Moving" led (Diffuse RED)
+    x=x+stepSize;                                          //Add "stepSize" value to previous "x" value to determine new "x" location
+    myMotor->step(stepSize, BACKWARD, MICROSTEP);          //Move motor 
+    digitalWrite(moveled, LOW);                            //Turn off "Moving" led (Diffuse RED)
+//    Settle
+    delay (5000);                                          //Wait 5 seconds for vibrations to settle
+  }
+  else if (x>=3000 && x<6000) {
+    digitalWrite(moveled, HIGH);                               //Turn on "Moving" led (Diffuse RED)
+    x=x+stepSize;                                              //Add "stepSize" value to previous "x" value to determine new "x" location
+    myMotor->step(stepSize, FORWARD, MICROSTEP);              //Move motor 
+    digitalWrite(moveled, LOW);                                //Turn off "Moving" led (Diffuse RED)
+//    Settle
+    delay (1000); 
+  }
+  else if (x>=6000 && x<9000) {
+    digitalWrite(moveled, HIGH);                               //Turn on "Moving" led (Diffuse RED)
+    x=x+stepSize;                                              //Add "stepSize" value to previous "x" value to determine new "x" location
+    myMotor->step(stepSize, BACKWARD, MICROSTEP);              //Move motor 
+    digitalWrite(moveled, LOW);                                //Turn off "Moving" led (Diffuse RED)
+//    Settle
+    delay (1000); 
